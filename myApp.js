@@ -1,7 +1,7 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 
-let PersonModel = require('./models/person');
+//let PersonModel = require('./models/person');
 
 mongoose.connect(process.env.MONGO_URI, {
 	useNewUrlParser: true,
@@ -23,8 +23,28 @@ const createAndSavePerson = (done) => {
 	});
 };
 
+let personA = new Person({
+	name: 'Ana',
+	age: 100,
+	favoriteFoods: ['A', 'B', 'C'],
+});
+let personB = new Person({
+	name: 'Belle',
+	age: 100,
+	favoriteFoods: ['B', 'C', 'A'],
+});
+let personC = new Person({
+	name: 'Chloe',
+	age: 100,
+	favoriteFoods: ['C', 'A', 'B'],
+});
+let arrayOfPeople = [personA, personB, personC];
+
 const createManyPeople = (arrayOfPeople, done) => {
-	done(null /*, data*/);
+	Person.create(arrayOfPeople, (err, data) => {
+		if (err) return console.error(err);
+		done(null, data);
+	});
 };
 
 const findPeopleByName = (personName, done) => {
